@@ -1,0 +1,16 @@
+
+
+zone "atv3.gov.br" {
+     type master;
+     file "/etc/bind/db.atv3.gov.br";
+
+};
+
+zone "1.10.10.in-addr.arpa" {
+     type master;
+     notify no;
+     file "/etc/bind/db.10";
+
+};
+
+
