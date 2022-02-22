@@ -1,12 +1,12 @@
 $TTL    604800
-@       IN      SOA      atv3.gov.br. root.atv3.gov.br. (
+@       IN      SOA      edilton.gov.br. root.edilton.gov.br. (
                          060520139      ; Serial
                          604800         ; Refresh
                          86400          ; Retry
                          2419200        ; Expire
                          604800 )       ; Negative Cache TTL
 ;
-@       IN      NS      ns1.atv3.gov.br.  
-2       IN      PTR     www.atv3.gov.br
+@       IN      NS      ns1.edilton.gov.br.  
+2       IN      PTR     www.edilton.gov.br
 
 

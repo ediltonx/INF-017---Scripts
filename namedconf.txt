@@ -1,8 +1,8 @@
 
 
-zone "atv3.gov.br" {
+zone "edilton.gov.br" {
      type master;
-     file "/etc/bind/db.atv3.gov.br";
+     file "/etc/bind/db.edilton.gov.br";
 
 };
 
