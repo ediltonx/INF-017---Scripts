@@ -18,9 +18,9 @@ cat db10edilton.txt >> /etc/bind/db.10
 
 clear ; read  -t 5  -p "PASSO 5:  CONFIGURAR O ARQUIVO resolv.conf    " ;
 
-echo "nameserver 192.168.1.15" > /etc/resolv.conf
-echo "domain edilton.gov.br" >> /etc/resolv.conf ; 
-echo "search edilton.gov.br" >> /etc/resolv.conf ; 
+echo "nameserver 192.168.1.8" > /etc/resolv.conf;
+echo "nameserver 0.0.0.0" >> /etc/resolv.conf ; 
+
 
 clear ; read  -t 5  -p "PASSO 6: VERIFICA O STATUS DO BIND   " ;
 
@@ -30,9 +30,11 @@ clear ; read  -t 5  -p "PASSO 7: REINICIAR O BIND COM AS ALTERACOES " ;
 
 /etc/init.d/bind9 restart; read -p "";
 
-clear ; read  -t 5  -p "PASSO 8: CHECAR AS CONFIGURACOES COM NSLOOKUP " ;
+clear ; read  -t 5  -p "PASSO 8: CHECAR AS CONFIGURACOES COM NSLOOKUP E OUTROS " ;
 
-nslookup www.edilton.gov.br;   read -p "" ;
+nslookup www.edilton.gov.br;   read -p "" ; 
+named-checkzone edilton.gov.br  /etc/bind/db.edilton.gov.br ; 
+named-checkzone 1.10.10.in-addr.arpa /etc/bind/db.10 ; read -p "";
 
 clear ; read  -t 5  -p "PASSO 9 REALIZAR O PING PARA O DOMINIO CRIADO:  " ;
 
