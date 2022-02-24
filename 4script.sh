@@ -1,32 +1,74 @@
-clear ; read  -t 5  -p "PASSO 1:                        " ;
+clear ; read  -t 5  -p "PASSO 1: CRIAR DIRETORIOS EM /var/www                       " ;
+
+mkdir /var/www/edilton.gov.br ; mkdir /var/www/edilton.org ;
+
+read  -t 1  -p "PASSO 2: ADICIONAR UM ARQUIVO INDEX.HTML NOS DIRETORIOS CRIADOS              " ;
+
+echo "<h1>Site de Edilton ponto GOV ponto BR</h1>" > /var/www/edilton.gov.br/index.html ;
+echo "<h1>Site de Edilton dot ORG </h1>" > /var/www/edilton.org/index.html ;
+
+read  -t 5  -p "";
+
+clear ; read  -t 5  -p "PASSO 3: CRIAR OS ARQUIVOS DE CONFIGURACAO DOS SITES EM /etc/apache2/sites-available " ;
+
+echo "
+
+#
+#
+<VirtualHost *>
+        ServerAdmin webmaster@www.edilton.gov.br
+        ServerName  www.edilton.gov.br
+        ServerAlias edilton.gov.br
+
+        # Indexes + Directory Root.
+        DirectoryIndex index.html
+        DocumentRoot /home/www/edilton.gov.br
+
+</VirtualHost>
 
 
-clear ; read  -t 5  -p "PASSO 2:               " ;
-
- 
-
-clear ; read  -t 5  -p "PASSO 3:  " ;
+" > /etc/apache2/sites-available/www.edilton.gov.br ;
 
 
-clear ; read  -t 5  -p "PASSO 4:          " ;
+echo "
+
+#
+#
+<VirtualHost *>
+        ServerAdmin webmaster@www.edilton.org
+        ServerName  www.edilton.org
+        ServerAlias www.edilton.org
+
+        # Indexes + Directory Root.
+        DirectoryIndex index.html
+        DocumentRoot /home/www/www.edilton.org
+
+</VirtualHost>
 
 
-clear ; read  -t 5  -p "PASSO 5:      " ;
+" > /etc/apache2/sites-available/www.edilton.org ;
 
 
-clear ; read  -t 5  -p "PASSO 6:  " ;
 
 
-clear ; read  -t 5  -p "PASSO 7:  " ;
+read  -t 3  -p "os arquivos foram configurados nos respectivos diretorios";
 
 
-clear ; read  -t 5  -p "PASSO 8:  " ;
+clear ; read  -t 5  -p "PASSO 4: HABILITAR OS SITES          " ;
+
+a2ensite www.edilton.org ; a2ensite www.edilton.gov.br ;
 
 
-clear ; read  -t 5  -p "PASSO 9:  " ;
+read  -t 5  -p "PASSO 5:      " ;
+
+/etc/init.d/apache2 reload ;
 
 
-clear ; read  -t 5  -p "PASSO 10:  " ;
+
+clear ; read  -t 5  -p " MISSAO CUMPRIDA !!!  " ;
 
 
-clear;
+clear ; read  -t 5  -p "FIM" ;
+
+
+clear ;
