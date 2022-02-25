@@ -1,21 +1,19 @@
-clear ; read  -t 5  -p "PASSO 1: CRIAR DIRETORIOS EM /var/www                       " ;
+clear ; read  -t 5  -p "PASSO 1: VERIFICAR ENDERECOS IP NA PASTA DO BIND 9                      " ;
 
-mkdir /var/www/edilton.gov.br ; mkdir /var/www/edilton.org ;
+cat /etc/bind/db.edilton.gov.br;
 
-read  -t 1  -p "PASSO 2: ADICIONAR UM ARQUIVO INDEX.HTML NOS DIRETORIOS CRIADOS              " ;
+cat /etc/bind/db.edilton.org;
 
-echo "<h1>Site de Edilton ponto GOV ponto BR</h1>" > /var/www/edilton.gov.br/index.html ;
-echo "<h1>Site de Edilton dot ORG </h1>" > /var/www/edilton.org/index.html ;
+read  -t 5  -p "PASSO 2: MUDAR UM DOS IPS      " ;
 
-read  -t 5  -p "";
+nano /etc/bind/db.edilton.org;
+nano /etc/bind/db.ediltongov.br;
 
-clear ; read  -t 5  -p "PASSO 3: CRIAR OS ARQUIVOS DE CONFIGURACAO DOS SITES EM /etc/apache2/sites-available " ;
+clear ; read  -t 5  -p "PASSO 3: ALTERA O ENDERECO DE IP DE UM DOS SITES EM /etc/apache2/sites-available " ;
 
-echo "
+<<comentario
 
-#
-#
-<VirtualHost *>
+<VirtualHost ESSE ENDERECO AQUI QUE TEM QUE MUDAR PRA FICAR IGUAL AO OUTRO>
         ServerAdmin webmaster@www.edilton.gov.br
         ServerName  www.edilton.gov.br
         ServerAlias edilton.gov.br
@@ -27,46 +25,23 @@ echo "
 </VirtualHost>
 
 
-" > /etc/apache2/sites-available/www.edilton.gov.br ;
+comentario
 
 
-echo "
+clear ; read  -t 5  -p "PASSO 4: REINICIAR OS DOIS SERVICOS          " ;
 
-#
-#
-<VirtualHost *>
-        ServerAdmin webmaster@www.edilton.org
-        ServerName  www.edilton.org
-        ServerAlias www.edilton.org
-
-        # Indexes + Directory Root.
-        DirectoryIndex index.html
-        DocumentRoot /home/www/www.edilton.org
-
-</VirtualHost>
-
-
-" > /etc/apache2/sites-available/www.edilton.org ;
-
-
-
-
-read  -t 3  -p "os arquivos foram configurados nos respectivos diretorios";
-
-
-clear ; read  -t 5  -p "PASSO 4: HABILITAR OS SITES          " ;
-
-a2ensite www.edilton.org ; a2ensite www.edilton.gov.br ;
-
-
-read  -t 5  -p "PASSO 5:      " ;
-
+/etc/init.d/bind9 reload ;
 /etc/init.d/apache2 reload ;
 
+read  -t 5  -p "PASSO 5: VERIFICAR COM O COMANDO PING e E NSLOOKUP    " ;
 
+ping www.edilton.gov.br ;
+ping www.edilton.org ; clear ;
 
-clear ; read  -t 5  -p " MISSAO CUMPRIDA !!!  " ;
+nslookup www.edilton.gov.br ; 
+nslookup www.edilton.org ;
 
+read  -t 5  -p " MISSAO CUMPRIDA !!!  " ;
 
 clear ; read  -t 5  -p "FIM" ;
 
