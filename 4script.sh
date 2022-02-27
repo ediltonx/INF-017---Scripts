@@ -57,13 +57,15 @@ echo "
 
 " > /etc/apache2/sites-available/www.edilton.org.conf ;
 
-read  -t 3  -p "os arquivos .conf das paginas foram configurados nos respectivos diretorios";
-ls /etc/apache2/sites-available/*.conf;
-read  -t 2 -p "";
+printf  "\nOs arquivos .conf das paginas foram configurados nos respectivos diretorios:\n\n";
+
+ls -d  /etc/apache2/sites-available/*.conf;
+
+read  -t 5 -p "";
 
 clear ; read  -t 5  -p "PASSO 4: HABILITAR OS SITES E VERIFICAR SE FORAM HABILITADOS    " ;
 
-cd /etc/apache2/sites-available/ a2ensite www.edilton.org ; a2ensite www.edilton.gov.br ;
+cd /etc/apache2/sites-available/ ; a2ensite www.edilton.org ; a2ensite www.edilton.gov.br ;
 
 ls /etc/apache2/sites-enabled/ ;
 
