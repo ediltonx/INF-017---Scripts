@@ -1,49 +1,39 @@
-clear ; read  -t 5  -p "PASSO 1: VERIFICAR ENDERECOS IP NA PASTA DO BIND 9                      " ;
+#!/bin/bash
 
-cat /etc/bind/db.edilton.gov.br;
+clear ; read  -t 5  -p "PASSO 1: ADICIONAR OS MESMOS NUMEROS DE IP NOS ARQUIVOS DE CONFIGURAÇÃO DO BIND   " ;
 
-cat /etc/bind/db.edilton.org;
+nano /etc/bind/db.edilton.gov.br ;
+nano /etc/bind/db.edilton.org ;
 
-read  -t 5  -p "PASSO 2: MUDAR UM DOS IPS      " ;
+clear;
 
-nano /etc/bind/db.edilton.org;
-nano /etc/bind/db.ediltongov.br;
+read  -t 5  -p "PASSO 2: ADICIONAR O MESMO IP NOS ARQUIVOS DO APACHE          " ;
 
-clear ; read  -t 5  -p "PASSO 3: ALTERA O ENDERECO DE IP DE UM DOS SITES EM /etc/apache2/sites-available " ;
+nano /etc/apache2/sites-available/www.edilton.gov.br.conf;
+nano /etc/apache2/sites-available/www.edilton.org.conf;
 
-<<comentario
+clear ; read  -t 5  -p "PASSO 3: REINICIAR OS SERVIÇOS " ;
 
-<VirtualHost ESSE ENDERECO AQUI QUE TEM QUE MUDAR PRA FICAR IGUAL AO OUTRO>
-        ServerAdmin webmaster@www.edilton.gov.br
-        ServerName  www.edilton.gov.br
-        ServerAlias edilton.gov.br
+service bind9 reload;
 
-        # Indexes + Directory Root.
-        DirectoryIndex index.html
-        DocumentRoot /home/www/edilton.gov.br
+service bind9 restart;
 
-</VirtualHost>
+service apache2 reload;
 
+service apache2 stop;
 
-comentario
+service apache2 start;
 
+read  -t 5  -p "PASSO 6: CHECAR O FUNCIONAMENTO DOS SITES   " ;
 
-clear ; read  -t 5  -p "PASSO 4: REINICIAR OS DOIS SERVICOS          " ;
+ping www.edilton.gov.br;
 
-/etc/init.d/bind9 reload ;
-/etc/init.d/apache2 reload ;
+ping www.edilton.org;
 
-read  -t 5  -p "PASSO 5: VERIFICAR COM O COMANDO PING e E NSLOOKUP    " ;
-
-ping www.edilton.gov.br ;
-ping www.edilton.org ; clear ;
-
-nslookup www.edilton.gov.br ; 
-nslookup www.edilton.org ;
-
-read  -t 5  -p " MISSAO CUMPRIDA !!!  " ;
+clear; read   -p " MISSAO CUMPRIDA !!!  " ;
 
 clear ; read  -t 5  -p "FIM" ;
 
 
 clear ;
+ 

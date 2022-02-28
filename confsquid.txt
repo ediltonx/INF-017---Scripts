@@ -1,0 +1,109 @@
+#################################
+# Arquivo de configuracao squid # 
+# Edilton Silva Jr              #
+#################################
+
+# Configuracoes iniciais
+http_port 3128
+visible hostname Server
+
+#Está porta é usada para troca de informações entre servidores proxy.
+#Não use o ICP se você tem um único proxy-pai que você sempre usa.
+#Para desabilitar, bastacolocar um 0. Padrão: 3130
+icp_port 0
+
+#Especifica o número da porta através do qual o Squid irá receber e
+#enviar requisições HTCP de e para caches vizinhos. Para desabilitar,
+#colocar 0. O padrão é 4827.
+htcp_port 0
+
+#Ela é responsável por dizer ao Squid que ele deve buscar os dados diretamente
+#na origem, sem passar pelos vizinhos na hierarquia. Padrao do squid
+hierarchy_stoplist cgi-bin ?
+
+#Esta ACL diz ao squid para não armazenar em cache o conteúdo dos CGI's, pois
+#obviamente não é interessante por tratar-se de conteúdo dinâmico
+acl QUERY urlpath_regex cgi-bin \?
+no_cache deny QUERY
+
+#Quantidade de memoria usada pelo squid
+cache_mem 256 MB
+
+#Esta TAG determina onde e como será feito o cache e o tamanho
+
+cache_dir ufs /var/spool/squid/cache1 2048 16 64
+
+
+# Log de requisicoes.
+cache_access_log /var/log/squid/access.log
+# Log do cache.
+cache_log /var/log/squid/cache.log
+# Log de objetos guardados. Pode ser desativado.
+cache_store_log none
+cache_effective_user proxy
+cache_effective_group proxy
+
+
+
+#Estas ACL's fazem parte da configuração padrão do Squid e é o mínimo
+#recomendável para seu uso não sendo necessária nenhuma alteração nas mesmas
+acl manager proto cache_object
+acl localhost src 127.0.0.1/255.255.255.255
+acl to_localhost dst 127.0.0.0/8
+acl BADPORTS port 7 9 11 19 22 23 25 53 110 119 513 514 3128 8080
+acl SSL_ports port 443 563
+acl Safe_ports port 80          # http
+acl Safe_ports port 21          # ftp
+acl Safe_ports port 443 563     # https
+acl Safe_ports port 70          # gopher
+acl Safe_ports port 210         # wais
+acl Safe_ports port 1025-65535  # unregistered ports
+acl Safe_ports port 280         # http-mgmt
+acl Safe_ports port 488         # gss-http
+acl Safe_ports port 591         # filemaker
+acl Safe_ports port 777         # multiling http
+acl CONNECT method CONNECT
+acl bloqueados url_regex -i '/etc/squid/bloqueados.txt'
+
+##nao esquecer de trocar a faixa de ip pela da sua rede
+acl rede src 192.168.1.0/255.255.255.0
+http_access allow localhost
+http_access allow rede
+
+#Definição de regras de acesso referentes as ACL's da parte da configuração
+#padrão do Squid, também não é necessária nenhuma alteração, portanto apenas
+#acrescente as suas próprias regras a estas;
+
+http_access deny bloqueados
+
+# Usuario sob o qual ira rodar o Squid.
+cache_effective_user proxy
+# Grupo sob o qual ira rodar o Squid.
+cache_effective_group proxy
+
+#Mostra o nome do servidor configurado nas mensagens de erro
+visible_hostname servidor@edilton.gov
+
+#Desligando essa variavel, faz com que o squid descarregue a memoria nao
+#utilizada, chamando uma funcao interna free() do squid, ao inves de ficar
+#com ela para futuras operaçoes.
+memory_pools off
+
+#Por padrão o Squid irá incluir o ip ou nome da sua máquina nas solicitações HTTP.
+#Ele irá saber o ip da sua máquina interna como também saber qual classe ip você usa internamente.
+#Para o site visitado não interessa para ele qual seu ip interno, o importante é que você visitou o site.
+forwarded_for off
+
+#Apresenta as mensagens de erro em Portugues
+error_directory /usr/share/squid/errors/Portuguese
+
+#Por padrão o Squid já possui essa configuração como ativa. Ela serve para não colocar no log os
+#parâmetros que são passados junto ao endereço acessado pelo usuário. Assim garante a privacidade.
+#As vezes quando se usa filtro por palavras e um site apresenta acesso negado é interessante setar
+#essa opção como off para verificar no log o endereço completo.
+strip_query_terms off
+
+#Local para gravar os arquivos core em caso de falhas do squid (/var/spool/squid)
+# ou Evitar que sejam feitos coredumps (none).
+coredump_dir none
+

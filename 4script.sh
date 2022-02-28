@@ -1,13 +1,17 @@
+#!/bin/bash
 
 ifconfig enp0s3 | grep 'inet' ; read -p "Antes de comecar, digite o ipv4 encontrado: " ipv4;
 
-clear ; read  -t 5  -p "PASSO 1: CRIAR DIRETORIOS EM /var/www                       " ;
 
-mkdir /var/www/edilton.gov.br ; mkdir /var/www/edilton.org ;
+clear ; read  -t 5  -p "PASSO 1: CRIAR DIRETORIOS EM /var/www  USANDO MKDIR               " ;
+
+mkdir /var/www/html/edilton.gov ; mkdir /var/www/html/edilton.org ;
+
+clear;
 
 read  -t 1  -p "PASSO 2: ADICIONAR UM ARQUIVO INDEX.HTML NOS DIRETORIOS CRIADOS              " ;
 
-echo "<html><h1> Site de Edilton ponto GOV ponto BR </h1></html>" > /var/www/html/edilton.gov.br/index.html ;
+echo "<html><h1> Site de Edilton ponto GOV ponto BR </h1></html>" > /var/www/html/edilton.gov/index.html ;
 echo "<html><h1> Site de Edilton dot ORG </h1></html>" > /var/www/html/edilton.org/index.html ;
 
 read  -t 5  -p "";
@@ -26,7 +30,7 @@ echo "
 
         # Indexes + Directory Root.
         DirectoryIndex index.html
-        DocumentRoot /home/www/html/edilton.gov.br
+        DocumentRoot /home/www/html/edilton.gov
 
 </VirtualHost>
 
@@ -53,31 +57,31 @@ echo "
 
 " > /etc/apache2/sites-available/www.edilton.org.conf ;
 
+printf  "\nOs arquivos .conf das paginas foram configurados nos respectivos diretorios:\n\n";
 
-ls /etc/apache2/sites-available/*.conf;
+ls -d  /etc/apache2/sites-available/*.conf;
 
-read  -t 3  -p "os arquivos .conf das paginas foram configurados nos respectivos diretorios";
-
+read  -t 5 -p "";
 
 clear ; read  -t 5  -p "PASSO 4: HABILITAR OS SITES E VERIFICAR SE FORAM HABILITADOS    " ;
 
-/etc/apache2/sites-available/a2ensite www.edilton.org ; 
-/etc/apache2/sites-available/a2ensite www.edilton.gov.br ;
+cd /etc/apache2/sites-available/ ; a2ensite www.edilton.org ; a2ensite www.edilton.gov.br ;
 
 ls /etc/apache2/sites-enabled/ ;
 
 read  -t 5  -p "PASSO 5: REATIVAR O SERVIDOR DO APACHE   " ;
 
-/etc/init.d/apache2 reload ; 
-system-ctl reload apache2 ;
-service apache2 stop;
+/etc/init.d/apache2 reload ; read -t 1 -p""; 
+
+service apache2 stop; read -t 1 -p "";
+
 service apache2 start;
 
 read  -t 5  -p "PASSO 6: CHECAR OS SITES NO NAVEGADOR   " ;
 
-elinks $ipv4/www.edilton.gov.br;
+elinks $ipv4/edilton.gov;
 
-elinks $ipv4/www.edilton.org.br;
+elinks $ipv4/edilton.org;
 
 clear; read   -p " MISSAO CUMPRIDA !!!  " ;
 
@@ -85,3 +89,4 @@ clear ; read  -t 5  -p "FIM" ;
 
 
 clear ;
+ 
