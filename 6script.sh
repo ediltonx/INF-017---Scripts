@@ -1,32 +1,14 @@
-clear ; read  -t 5  -p "PASSO 1:                        " ;
+#!/bin/bash
 
+clear ; read  -t 5  -p "PASSO 1: ALTERAR O IP PARA O VALOR DO SERVIDOR APACHE" ;
 
-clear ; read  -t 5  -p "PASSO 2:               " ;
+nano /etc/bind/db.edilton.gov.br ;
+nano /etc/bind/db.edilton.org ;
 
- 
+clear ; read  -t 5  -p "PASSO 2: REINICIAR O BIND COM AS ALTERACOES " ;
 
-clear ; read  -t 5  -p "PASSO 3:  " ;
+service bind9 reload;
 
-
-clear ; read  -t 5  -p "PASSO 4:          " ;
-
-
-clear ; read  -t 5  -p "PASSO 5:      " ;
-
-
-clear ; read  -t 5  -p "PASSO 6:  " ;
-
-
-clear ; read  -t 5  -p "PASSO 7:  " ;
-
-
-clear ; read  -t 5  -p "PASSO 8:  " ;
-
-
-clear ; read  -t 5  -p "PASSO 9:  " ;
-
-
-clear ; read  -t 5  -p "PASSO 10:  " ;
-
+service bind9 restart; 
 
 clear;
