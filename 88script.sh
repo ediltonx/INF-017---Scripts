@@ -38,7 +38,7 @@ max-lease-time 7200;
 
 ' >> /etc/dhcp/dhcpd.conf ;
  
-echo "authoritative" >> /etc/dhcp/dhcpd.conf ;
+echo "authoritative;" >> /etc/dhcp/dhcpd.conf ;
 
 clear ; read  -t 5  -p "PASSO 5: ADICIONAR INTERFACE NO ARQUIVO isc-dhcp-server " ;
 
