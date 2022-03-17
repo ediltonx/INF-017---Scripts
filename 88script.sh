@@ -26,10 +26,10 @@ clear ; read  -t 5  -p "PASSO 4: CONFIGURAR PARAMETROS DA SUB-REDE EM /ETC/DHCP/
 
 echo '
 subnet 10.20.20.0 netmask 255.255.255.0 {
-range 10.10.20.100 10.10.20.150;
-option domain-name-servers 10.10.20.1;
+range 10.20.20.50 10.20.20.150;
+option domain-name-servers 10.20.20.1;
 option domain-name "edilton.internal";
-option routers 10.10.20.1;
+option routers 10.20.20.1;
 option subnet-mask 255.255.255.0;
 option broadcast-address 10.20.20.255;
 default-lease-time 600;
@@ -42,7 +42,7 @@ echo "authoritative;" >> /etc/dhcp/dhcpd.conf ;
 
 clear ; read  -t 5  -p "PASSO 5: ADICIONAR INTERFACE NO ARQUIVO isc-dhcp-server " ;
 
-echo 'INTERFACES="enp0s3"' >> /etc/default/isc-dhcp-server ;
+echo 'INTERFACESv4="enp0s3"' > /etc/default/isc-dhcp-server ;
 
 clear ; read  -t 5  -p "PASSO 6: REINICIAR SERVIDOR " ;
 
